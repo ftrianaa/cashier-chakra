@@ -1,26 +1,29 @@
-import { useState } from 'react';
-import React from 'react';
+
 import {
   ChakraProvider,
   Box,
-  VStack,
   Grid,
   theme,
   Alert,
   AlertIcon
 } from '@chakra-ui/react';
-import { ColorModeSwitcher } from './ColorModeSwitcher';
 import Login from './pages/Login';
 import { Route, Routes, useNavigate } from 'react-router-dom'
 import Dashboard from './pages/Dashboard';
+import Register from './pages/Register';
+import { useState } from 'react';
 function App() {
   const navigate = useNavigate()
   const [alerts, setAlerts] = useState(null)
   const [email, setEmail] = useState('')
   const [pass, setPass] = useState('')
+  const [named, setNamed] = useState('')
+  const [dated, setDated] = useState('')
+
   const handleLogin = () => {
     if (email === 'pulu@index.co' && pass === '12345') {
-      navigate('/')
+      navigate('/products')
+      setAlerts('')
     } else if (email === '' || pass === '') {
       setAlerts(<Alert status='error'>
         <AlertIcon />
@@ -38,16 +41,25 @@ function App() {
       </Alert>)
     }
   }
+  const handleRegister = () => {
+    if (email === '' || pass === '' || named === '' || dated === '') {
+      setAlerts(<Alert status='error'>
+        <AlertIcon />
+        You should fill all column, try again.
+      </Alert>)
+    }else{
+      setAlerts('')
+      navigate('/products')
+    }
+  }
   return (
     <ChakraProvider theme={theme}>
       {alerts}
       <Box textAlign="center" fontSize="xl">
-        <Grid minH="100vh" p={3}>
-          <ColorModeSwitcher justifySelf="flex-end" />
-          <VStack spacing={8}>
+        <Grid minH="100vh" >
 
-            <Routes>
-              <Route exact path='/login' element={
+          <Routes>
+            <Route exact path='/' element={
               <Login
                 handleLogin={handleLogin}
                 setEmail={setEmail}
@@ -55,10 +67,23 @@ function App() {
                 setPass={setPass}
                 pass={pass}
               />
-              } />
-              <Route path='/' element={<Dashboard setAlerts={setAlerts}/>}/>
-            </Routes>
-          </VStack>
+            } />
+            <Route path='/products' element={<Dashboard setAlerts={setAlerts} />} />
+            <Route path='/register' element={
+              <Register
+                handleRegister={handleRegister}
+                setDated={setDated}
+                dated={dated}
+                setNamed={setNamed}
+                named={named}
+                setEmail={setEmail}
+                email={email}
+                setPass={setPass}
+                pass={pass}
+              />
+            } />
+          </Routes>
+
         </Grid>
       </Box>
     </ChakraProvider>
