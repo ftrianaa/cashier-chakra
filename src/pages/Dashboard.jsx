@@ -15,6 +15,7 @@ import Header from "../components/Header"
 export default function Dashboard() {
     const [products, setProducts] = useState([])
     const [description, setDescription] = useState([])
+    const [search, setSearch] = useState([])
     const getProduct = async () => {
         try {
             const res = await Api.get('/products.json?rating_greater_than=4.95')
@@ -29,13 +30,29 @@ export default function Dashboard() {
         newData.index = index
         setDescription(newData)
     }
-    console.log(products);
+    // console.log(products);
+    const handleSearch = async () => {
+        try {
+            const res = await Api.get(`products.json?brand=${search}`)
+            setProducts(res.data)
+        } catch (error) {
+            throw (error)
+        }
+    }
+    console.log(search)
     useEffect(() => {
-        getProduct()
+        if (search==='') {
+            getProduct()
+        } else {
+            handleSearch()
+        }
     }, [])
     return (
         <>
-            <Header />
+            <Header
+                setSearch={setSearch}
+                handleSearch={handleSearch}
+            />
             <>
                 <Flex flexWrap='wrap' alignItems='center' justifyContent='center' mt='10'>
                     {products.map((data, index) => (
