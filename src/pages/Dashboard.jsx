@@ -8,12 +8,16 @@ import {
     ModalCloseButton,
     Grid,
 } from "@chakra-ui/react"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useContext } from "react"
 import Api from "../config/Config"
 import { StarIcon } from '@chakra-ui/icons'
 import Header from "../components/Header"
 import Order from "./Order"
+import { useNavigate } from "react-router-dom"
+import { CashierContext } from "../store/AppContext"
 export default function Dashboard() {
+    const navigate = useNavigate()
+    const { isLogin } = useContext(CashierContext)
     const [products, setProducts] = useState([])
     const [description, setDescription] = useState([])
     const [search, setSearch] = useState([])
@@ -45,8 +49,11 @@ export default function Dashboard() {
     }
     // console.log(search)
     useEffect(() => {
-        getProduct()
-    }, [])
+        if (!isLogin) {
+            navigate('/')
+        }
+        else { getProduct() }
+    })
     return (
         <>
             <Header
@@ -82,7 +89,7 @@ export default function Dashboard() {
                                 <Divider />
                                 <CardFooter>
                                     <ButtonGroup spacing='2'>
-                                        <Button variant='solid' colorScheme='blue' onClick={()=>{handleOrder(data)}}>
+                                        <Button variant='solid' colorScheme='blue' onClick={() => { handleOrder(data) }}>
                                             Buy now
                                         </Button>
                                         <Button variant='ghost' colorScheme='blue' onClick={() => { handlePreview(data, index); onOpen(); }}>

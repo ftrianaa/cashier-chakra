@@ -6,18 +6,21 @@ import reportWebVitals from './reportWebVitals';
 import * as serviceWorker from './serviceWorker';
 import { ChakraProvider } from '@chakra-ui/react'
 import { BrowserRouter as Router } from 'react-router-dom';
-
+import AppContext from './store/AppContext';
 const container = document.getElementById('root');
 const root = ReactDOM.createRoot(container);
 
 root.render(
   <StrictMode>
+    <AppContext>
     <Router>
       <ChakraProvider>
         <ColorModeScript />
         <App />
       </ChakraProvider>
     </Router>
+    </AppContext>
+   
   </StrictMode>
 );
 
