@@ -2,29 +2,38 @@ import { createContext, useReducer } from "react";
 
 export const CashierContext = createContext()
 
-const AppReducer = (state, {payload})=>{
+const AppReducer = (state, payload)=>{
+    console.log(payload);
     return{
         ...state,
-        isLogin: payload
+        isLogin: payload.payload,
+        qty: payload.quantity
     }
 }
 
 const AppContext = ({children})=>{
     const initialState ={
-        isLogin:false
+        isLogin:false,
+        qty:0
     }
-
     const [state,dispatch]=useReducer(AppReducer, initialState)
 
     const validateLogin = (params)=>{
-        dispatch({payload:params})
+        dispatch({payload:params, quantity:qty})
     }
-    const {isLogin}=state
-    
+
+    const addQuantity = () =>{
+        dispatch({quantity:qty+1, payload: true})
+    }
+
+    const {isLogin, qty}=state
+
     return(
         <CashierContext.Provider
         value={{
             isLogin: isLogin,
+            quantity: qty,
+            addQuantity,
             validateLogin
         }}>
             {children}

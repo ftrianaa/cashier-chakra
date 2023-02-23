@@ -17,7 +17,7 @@ import { useNavigate } from "react-router-dom"
 import { CashierContext } from "../store/AppContext"
 export default function Dashboard() {
     const navigate = useNavigate()
-    const { isLogin } = useContext(CashierContext)
+    const { isLogin, addQuantity } = useContext(CashierContext)
     const [products, setProducts] = useState([])
     const [description, setDescription] = useState([])
     const [search, setSearch] = useState([])
@@ -44,9 +44,9 @@ export default function Dashboard() {
             throw (error)
         }
     }
-    const handleOrder = () => {
+    // const handleOrder = () => {
 
-    }
+    // }
     // console.log(search)
     useEffect(() => {
         if (!isLogin) {
@@ -89,7 +89,7 @@ export default function Dashboard() {
                                 <Divider />
                                 <CardFooter>
                                     <ButtonGroup spacing='2'>
-                                        <Button variant='solid' colorScheme='blue' onClick={() => { handleOrder(data) }}>
+                                        <Button variant='solid' colorScheme='blue' onClick={() => { addQuantity() }}>
                                             Buy now
                                         </Button>
                                         <Button variant='ghost' colorScheme='blue' onClick={() => { handlePreview(data, index); onOpen(); }}>

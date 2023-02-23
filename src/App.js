@@ -15,7 +15,9 @@ import { useContext, useState } from 'react';
 import { CashierContext } from './store/AppContext';
 function App() {
   const navigate = useNavigate()
-  const { validateLogin } = useContext(CashierContext)
+  const { validateLogin, isLogin, quantity } = useContext(CashierContext)
+  console.log(isLogin,'inilogin');
+  console.log(quantity, 'quantityyy');
   const [alerts, setAlerts] = useState(null)
   const [email, setEmail] = useState('')
   const [pass, setPass] = useState('')
