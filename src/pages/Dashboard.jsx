@@ -6,12 +6,13 @@ import {
     ModalFooter,
     ModalBody,
     ModalCloseButton,
+    Grid,
 } from "@chakra-ui/react"
 import { useState, useEffect } from "react"
 import Api from "../config/Config"
 import { StarIcon } from '@chakra-ui/icons'
 import Header from "../components/Header"
-
+import Order from "./Order"
 export default function Dashboard() {
     const [products, setProducts] = useState([])
     const [description, setDescription] = useState([])
@@ -39,13 +40,12 @@ export default function Dashboard() {
             throw (error)
         }
     }
-    console.log(search)
+    const handleOrder = () => {
+
+    }
+    // console.log(search)
     useEffect(() => {
-        if (search==='') {
-            getProduct()
-        } else {
-            handleSearch()
-        }
+        getProduct()
     }, [])
     return (
         <>
@@ -54,44 +54,47 @@ export default function Dashboard() {
                 handleSearch={handleSearch}
             />
             <>
-                <Flex flexWrap='wrap' alignItems='center' justifyContent='center' mt='10'>
-                    {products.map((data, index) => (
-                        <Card maxW='235px' margin='10px' key={index}>
-                            <CardBody >
-                                <Flex alignItems='center' justifyContent='center' display='flex'>
-                                    <Image
-                                        src={data.api_featured_image}
-                                        alt={data.name}
-                                        borderRadius='lg'
-                                    />
-                                </Flex>
-                                <Stack mt='6' spacing='3'>
-                                    <Heading size='md' textOverflow='ellipsis' whiteSpace='nowrap'
-                                        overflow='hidden'>{data.name}</Heading>
-                                    <Text textOverflow='ellipsis' whiteSpace='nowrap'
-                                        overflow='hidden'>
-                                        {data.description}
-                                    </Text>
-                                    <Text><StarIcon color='gold' />{data.rating}</Text>
-                                    <Text color='blue.600' fontSize='2xl' >
-                                        ${data.price}
-                                    </Text>
-                                </Stack>
-                            </CardBody>
-                            <Divider />
-                            <CardFooter>
-                                <ButtonGroup spacing='2'>
-                                    <Button variant='solid' colorScheme='blue'>
-                                        Buy now
-                                    </Button>
-                                    <Button variant='ghost' colorScheme='blue' onClick={() => { handlePreview(data, index); onOpen(); }}>
-                                        Preview
-                                    </Button>
-                                </ButtonGroup>
-                            </CardFooter>
-                        </Card>
-                    ))}
-                </Flex>
+                <Grid templateColumns='repeat(2, 1fr)'>
+                    <Flex flexWrap='wrap' alignItems='center' justifyContent='center' mt='10'>
+                        {products.map((data, index) => (
+                            <Card maxW='235px' margin='10px' key={index}>
+                                <CardBody >
+                                    <Flex alignItems='center' justifyContent='center' display='flex'>
+                                        <Image
+                                            src={data.api_featured_image}
+                                            alt={data.name}
+                                            borderRadius='lg'
+                                        />
+                                    </Flex>
+                                    <Stack mt='6' spacing='3'>
+                                        <Heading size='md' textOverflow='ellipsis' whiteSpace='nowrap'
+                                            overflow='hidden'>{data.name}</Heading>
+                                        <Text textOverflow='ellipsis' whiteSpace='nowrap'
+                                            overflow='hidden'>
+                                            {data.description}
+                                        </Text>
+                                        <Text><StarIcon color='gold' />{data.rating}</Text>
+                                        <Text color='blue.600' fontSize='2xl' >
+                                            ${data.price}
+                                        </Text>
+                                    </Stack>
+                                </CardBody>
+                                <Divider />
+                                <CardFooter>
+                                    <ButtonGroup spacing='2'>
+                                        <Button variant='solid' colorScheme='blue' onClick={()=>{handleOrder(data)}}>
+                                            Buy now
+                                        </Button>
+                                        <Button variant='ghost' colorScheme='blue' onClick={() => { handlePreview(data, index); onOpen(); }}>
+                                            Preview
+                                        </Button>
+                                    </ButtonGroup>
+                                </CardFooter>
+                            </Card>
+                        ))}
+                    </Flex>
+                    <Order />
+                </Grid>
                 <Modal onClose={onClose} isOpen={isOpen} isCentered>
                     <ModalOverlay />
                     <ModalContent>

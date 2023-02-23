@@ -16,7 +16,7 @@ export default function Header(props) {
         <Spacer />
         <Box>
           <Flex>
-            <Input width='100%' type='text' backgroundColor='gray.200' onChange={e=>setSearch(e.target.value)}></Input>
+            <Input width='100%' type='text' color='#bfedef' onChange={e=>setSearch(e.target.value)}></Input>
             <Button onClick={handleSearch}><SearchIcon></SearchIcon></Button>
           </Flex>
         </Box>
